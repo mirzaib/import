@@ -1,0 +1,27 @@
+from qiskit import *
+from qiskit.circuit import Gate
+
+n = 3
+qr = QuantumRegister(n, 'q')
+an = QuantumRegister(1, 'ancilla')
+cr = ClassicalRegister(1, 'c')
+
+circuit = QuantumCircuit(an, qr, cr)
+
+circuit.h(qr[2])
+circuit.cx(qr[2], qr[1])
+circuit.cx(qr[1], qr[0])
+circuit.cz(qr[1], qr[2])
+circuit.cy(qr[1], qr[2])
+circuit.x(qr[1])
+circuit.swap(qr[0], qr[1])
+circuit.barrier(qr)
+circuit.cu1("Pi", an[0], qr[1])
+circuit.cu1("Pi/3", an[0], qr[0]) 
+circuit.swap(qr[0], qr[1])
+circuit.x(qr[1])
+circuit.cx(qr[1], qr[0])
+circuit.cx(qr[2], qr[1])
+circuit.measure(qr[0], cr[0])
+
+circuit.draw(output='mpl')
